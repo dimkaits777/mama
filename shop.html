@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop All Designs — Stitch Your Love Mother's Day Embroidery</title>
+  <meta name="description" content="Browse all premium machine embroidery designs for Mother's Day. Filter by floral, grandma, sports, pets, funny, and nursery categories.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .shop-hero {
+      padding-top: 72px;
+      min-height: 260px;
+      display: flex; align-items: center;
+      background: linear-gradient(135deg, rgba(45,27,46,0.8), rgba(74,45,80,0.75));
+      backdrop-filter: blur(8px);
+      color: white; text-align: center; position: relative; z-index: 2;
+    }
+    .shop-hero-content { max-width: 700px; margin: 0 auto; padding: 3rem 2rem; }
+    .shop-hero h1 { font-family: 'Great Vibes', cursive; font-size: clamp(2.5rem,6vw,4.5rem); margin-bottom: 0.75rem; }
+    .shop-hero p { font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.7; }
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      position: sticky; top: 88px; height: fit-content;
+    }
+    .sidebar-panel {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.5rem; margin-bottom: 1rem;
+    }
+    .sidebar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem; color: var(--plum); margin-bottom: 1rem;
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .sidebar-option {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.5rem 0.75rem; border-radius: 8px;
+      cursor: pointer; transition: var(--trans);
+      font-size: 0.85rem; color: var(--plum-mid);
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .sidebar-option:hover, .sidebar-option.active {
+      background: rgba(217,95,59,0.12); color: var(--persimmon); font-weight: 600;
+    }
+    .shop-layout {
+      display: flex; gap: 2rem;
+      padding: 3rem 2rem;
+      max-width: 1240px; margin: 0 auto;
+    }
+    .shop-main { flex: 1; min-width: 0; }
+    .results-info {
+      font-size: 0.85rem; color: var(--text-mid);
+      margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;
+    }
+    .no-results {
+      text-align: center; padding: 4rem 2rem;
+      color: var(--text-mid);
+    }
+    @media (max-width: 760px) {
+      .sidebar { display: none; }
+      .shop-layout { padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="stitch-line" id="stitchLine"></div>
+<div class="overlay" id="overlay"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">Stitch Your Love</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html" style="color:var(--persimmon);">Shop</a></li>
+    <li><a href="shop.html#categories">Categories</a></li>
+    <li><a href="gift-guide.html">Gift Guide</a></li>
+  </ul>
+  <div class="nav-icons">
+    <div class="nav-wishlist">
+      <button class="nav-icon-btn" id="wishlistBtn" onclick="toggleWishlist()">🤍</button>
+      <span class="wishlist-count" id="wishlistCount">0</span>
+    </div>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- SHOP HERO -->
+<div class="shop-hero">
+  <div class="shop-hero-content">
+    <p style="font-size:0.75rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:0.75rem;">All Designs</p>
+    <h1>Mother's Day Collection</h1>
+    <p>Premium machine embroidery designs with instant download and commercial license.</p>
+  </div>
+</div>
+
+<!-- Mobile Filters Bar -->
+<div style="padding:1rem; display:none;" id="mobileFilters">
+  <div class="filters-bar" id="mobileFiltersBar"></div>
+</div>
+
+<!-- SHOP LAYOUT -->
+<div class="shop-layout" id="categories">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-panel">
+      <div class="sidebar-title">Category</div>
+      <div id="sidebarCats"></div>
+    </div>
+    <div class="sidebar-panel">
+      <div class="sidebar-title">Hoop Size</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+        <span class="format-tag" style="cursor:pointer; padding:0.3rem 0.7rem;">4×4</span>
+        <span class="format-tag" style="cursor:pointer; padding:0.3rem 0.7rem;">5×7</span>
+        <span class="format-tag" style="cursor:pointer; padding:0.3rem 0.7rem;">6×10</span>
+        <span class="format-tag" style="cursor:pointer; padding:0.3rem 0.7rem;">8×8</span>
+      </div>
+      <p style="font-size:0.72rem; color:var(--text-light); margin-top:0.75rem; line-height:1.5;">All sizes available on Creative Fabrica product pages.</p>
+    </div>
+    <div class="sidebar-panel">
+      <div class="sidebar-title">Style</div>
+      <div style="display:flex; flex-direction:column; gap:0.25rem;">
+        <button class="sidebar-option">🎨 Line Art</button>
+        <button class="sidebar-option">🌸 Appliqué</button>
+        <button class="sidebar-option">🧵 Filled</button>
+        <button class="sidebar-option">🎩 3D Puff</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Products Main -->
+  <main class="shop-main">
+    <div class="results-info">
+      <span id="resultsCount">Loading designs…</span>
+      <span style="font-size:0.8rem; color:var(--text-light);">Powered by Creative Fabrica</span>
+    </div>
+    <div class="products-grid" id="productsGrid" style="opacity:0; transition:opacity 0.4s;"></div>
+    <div class="no-results" id="noResults" style="display:none;">
+      <p style="font-size:2rem; margin-bottom:1rem;">🧵</p>
+      <p>No designs found for this filter.</p>
+      <button onclick="setCategory('all')" class="btn-secondary" style="margin-top:1rem;">View All Designs</button>
+    </div>
+  </main>
+</div>
+
+<!-- CTA -->
+<div style="padding:0 2rem 4rem; max-width:1240px; margin:0 auto;">
+  <div class="cta-banner">
+    <h2>Thousands More Designs Await</h2>
+    <p>Browse the complete Mother's Day collection on Creative Fabrica — new designs added every week.</p>
+    <a href="https://www.creativefabrica.com/search/ref/20531415/?query=mother&type=Embroidery" target="_blank" rel="noopener" class="btn-primary" style="display:inline-flex;">
+      Browse Full Collection on Creative Fabrica ➜
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <span class="footer-logo">Stitch Your Love</span>
+      <p class="footer-tagline">Premium machine embroidery designs for Mother's Day and beyond.</p>
+      <p style="font-size:0.75rem; color:rgba(255,255,255,0.35);">Affiliate disclosure: links lead to Creative Fabrica.</p>
+    </div>
+    <div>
+      <h4 class="footer-heading">Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="gift-guide.html">Gift Guide</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading">Categories</h4>
+      <ul class="footer-links">
+        <li><a href="?cat=floral">Floral &amp; Elegant</a></li>
+        <li><a href="?cat=grandma">For Grandmas</a></li>
+        <li><a href="?cat=sports">Sports Moms</a></li>
+        <li><a href="?cat=pets">Pet Moms</a></li>
+        <li><a href="?cat=funny">Funny &amp; Relatable</a></li>
+        <li><a href="?cat=newmom">New Moms</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading">Formats</h4>
+      <ul class="footer-links">
+        <li><a href="#">PES, DST, EXP</a></li>
+        <li><a href="#">HUS, JEF, VIP</a></li>
+        <li><a href="#">VP3, XXX</a></li>
+        <li><a href="#">Commercial License ✓</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Stitch Your Love. All rights reserved.</span>
+    <span>Affiliate links to Creative Fabrica</span>
+  </div>
+</footer>
+
+<!-- WISHLIST DRAWER -->
+<div class="wishlist-drawer" id="wishlistDrawer">
+  <div class="wishlist-header">
+    <h3>My Wishlist 🤍</h3>
+    <button class="wishlist-close" onclick="toggleWishlist()">✕</button>
+  </div>
+  <div class="wishlist-items" id="wishlistItems">
+    <div class="wishlist-empty" id="wishlistEmpty">
+      <p style="font-size:2rem; margin-bottom:1rem;">🧵</p>
+      <p>Your wishlist is empty.</p>
+    </div>
+  </div>
+  <div class="wishlist-footer" id="wishlistFooter" style="display:none;">
+    <p style="font-size:0.82rem; color:var(--text-mid); margin-bottom:1rem;">Ready to buy? Shop all on Creative Fabrica.</p>
+    <a href="https://www.creativefabrica.com/search/ref/20531415/?query=mother&type=Embroidery" target="_blank" class="btn-primary btn-persimmon" style="display:block; text-align:center;">
+      Shop on Creative Fabrica ➜
+    </a>
+  </div>
+</div>
+
+<script src="products.js"></script>
+<script>
+// Current filter state
+let currentCat = 'all';
+const urlParams = new URLSearchParams(window.location.search);
+const initCat = urlParams.get('cat') || 'all';
+
+function buildSidebar() {
+  const container = document.getElementById('sidebarCats');
+  if (!container) return;
+  container.innerHTML = CATEGORIES.map(c => `
+    <button class="sidebar-option ${c.id === currentCat ? 'active' : ''}"
+            onclick="setCategory('${c.id}')">
+      ${c.icon} ${c.label}
+    </button>`).join('');
+}
+
+function buildMobileFilters() {
+  const container = document.getElementById('mobileFiltersBar');
+  if (container) {
+    container.innerHTML = CATEGORIES.map(c => `
+      <button class="filter-btn ${c.id === currentCat ? 'active' : ''}"
+              onclick="setCategory('${c.id}')">
+        ${c.icon} ${c.label}
+      </button>`).join('');
+  }
+  const mf = document.getElementById('mobileFilters');
+  if (mf) mf.style.display = 'block';
+}
+
+function setCategory(cat) {
+  currentCat = cat;
+  // Update URL
+  const url = new URL(window.location);
+  if (cat === 'all') url.searchParams.delete('cat');
+  else url.searchParams.set('cat', cat);
+  window.history.pushState({}, '', url);
+
+  buildSidebar();
+  buildMobileFilters();
+  renderProducts();
+}
+
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  const noResults = document.getElementById('noResults');
+  const resultsCount = document.getElementById('resultsCount');
+
+  let filtered = currentCat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === currentCat);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = ''; grid.style.opacity = '0';
+    noResults.style.display = 'block';
+    resultsCount.textContent = '0 designs found';
+    return;
+  }
+
+  noResults.style.display = 'none';
+  resultsCount.textContent = `${filtered.length} design${filtered.length !== 1 ? 's' : ''} found`;
+
+  grid.style.opacity = '0';
+  grid.innerHTML = filtered.map(p => buildProductCardHTML(p)).join('');
+  setTimeout(() => { grid.style.opacity = '1'; }, 50);
+  updateWishlistUI();
+}
+
+function buildProductCardHTML(p) {
+  const formats = ['PES','DST','EXP','HUS','JEF'];
+  const id = 'p-' + encodeURIComponent(p.title).slice(0,20).replace(/%/g,'');
+  return `
+  <div class="product-card" data-id="${id}">
+    <div class="product-image-wrap">
+      <img src="${p.image}" alt="${p.title}" loading="lazy">
+      <button class="product-wish" onclick="toggleWish(event, this, '${id}', \`${p.title.replace(/`/g,"'")}\`, '${p.image}')" title="Save to wishlist">🤍</button>
+    </div>
+    <div class="product-body">
+      <h3 class="product-title">${p.title}</h3>
+      <p class="product-desc">${p.description}</p>
+      <div class="product-formats">
+        ${formats.map(f => `<span class="format-tag">${f}</span>`).join('')}
+        <span class="format-tag">+3</span>
+      </div>
+      <a href="${p.affiliate}" target="_blank" rel="noopener" class="btn-buy">Buy Design on Creative Fabrica ➜</a>
+    </div>
+  </div>`;
+}
+
+// Init
+currentCat = initCat;
+buildSidebar();
+buildMobileFilters();
+renderProducts();
+
+// Navbar scroll
+let lastScroll = 0;
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  const s = window.scrollY;
+  if (s > lastScroll && s > 120) navbar.classList.add('hidden');
+  else navbar.classList.remove('hidden');
+  if (s > 50) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
+  lastScroll = s;
+});
+
+// Wishlist
+let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+function updateWishlistUI() {
+  const count = wishlist.length;
+  const countEl = document.getElementById('wishlistCount');
+  const footer = document.getElementById('wishlistFooter');
+  const empty = document.getElementById('wishlistEmpty');
+  const items = document.getElementById('wishlistItems');
+  if (countEl) { countEl.textContent = count; countEl.classList.toggle('visible', count > 0); }
+  if (footer) footer.style.display = count > 0 ? 'block' : 'none';
+  if (empty) empty.style.display = count === 0 ? 'block' : 'none';
+  if (items) {
+    items.querySelectorAll('.wishlist-item').forEach(el => el.remove());
+    wishlist.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'wishlist-item';
+      div.innerHTML = `<img src="${item.image}" alt="${item.title}"><div class="wishlist-item-info"><div class="wishlist-item-title">${item.title}</div><button class="wishlist-item-rm" onclick="removeWish('${item.id}')">Remove</button></div>`;
+      items.appendChild(div);
+    });
+  }
+  document.querySelectorAll('.product-wish').forEach(btn => {
+    const id = btn.closest('.product-card')?.dataset?.id;
+    if (id && wishlist.find(w => w.id === id)) { btn.textContent = '❤️'; btn.classList.add('active'); }
+    else { btn.textContent = '🤍'; btn.classList.remove('active'); }
+  });
+}
+
+function toggleWish(e, btn, id, title, image) {
+  e.preventDefault(); e.stopPropagation();
+  const existing = wishlist.findIndex(w => w.id === id);
+  if (existing >= 0) { wishlist.splice(existing, 1); btn.textContent = '🤍'; btn.classList.remove('active'); }
+  else {
+    if (wishlist.length >= 10) { alert('Wishlist is full! Remove a design first.'); return; }
+    wishlist.push({ id, title, image });
+    btn.textContent = '❤️'; btn.classList.add('active');
+    btn.style.transform = 'scale(1.3)';
+    setTimeout(() => btn.style.transform = '', 300);
+  }
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  updateWishlistUI();
+}
+
+function removeWish(id) {
+  wishlist = wishlist.filter(w => w.id !== id);
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  updateWishlistUI();
+}
+
+function toggleWishlist() {
+  document.getElementById('wishlistDrawer').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('visible');
+}
+
+document.getElementById('overlay').addEventListener('click', () => {
+  document.getElementById('wishlistDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+});
+
+updateWishlistUI();
+
+function toggleMobileMenu() {
+  const links = document.querySelector('.nav-links');
+  if (links.style.display === 'flex') links.style.display = 'none';
+  else links.style.cssText = 'display:flex; flex-direction:column; position:fixed; top:72px; left:0; right:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); padding:1.5rem; gap:1.25rem; border-bottom:1px solid rgba(45,27,46,0.1); z-index:890;';
+}
+</script>
+</body>
+</html>

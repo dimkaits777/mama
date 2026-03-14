@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects
+# These ensure clean URL routing
+
+/shop          /shop.html          301
+/gift-guide    /gift-guide.html    301
+/about         /index.html#about   301
