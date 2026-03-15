@@ -1,396 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop All Designs — Stitch Your Love Mother's Day Embroidery</title>
-  <meta name="description" content="Browse all premium machine embroidery designs for Mother's Day. Filter by floral, grandma, sports, pets, funny, and nursery categories.">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .shop-hero {
-      padding-top: 72px;
-      min-height: 260px;
-      display: flex; align-items: center;
-      background: linear-gradient(135deg, rgba(45,27,46,0.8), rgba(74,45,80,0.75));
-      backdrop-filter: blur(8px);
-      color: white; text-align: center; position: relative; z-index: 2;
-    }
-    .shop-hero-content { max-width: 700px; margin: 0 auto; padding: 3rem 2rem; }
-    .shop-hero h1 { font-family: 'Great Vibes', cursive; font-size: clamp(2.5rem,6vw,4.5rem); margin-bottom: 0.75rem; }
-    .shop-hero p { font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.7; }
-    .sidebar {
-      width: 240px; flex-shrink: 0;
-      position: sticky; top: 88px; height: fit-content;
-    }
-    .sidebar-panel {
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 1.5rem; margin-bottom: 1rem;
-    }
-    .sidebar-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.9rem; color: var(--plum); margin-bottom: 1rem;
-      text-transform: uppercase; letter-spacing: 0.1em;
-    }
-    .sidebar-option {
-      display: flex; align-items: center; gap: 0.6rem;
-      padding: 0.5rem 0.75rem; border-radius: 8px;
-      cursor: pointer; transition: var(--trans);
-      font-size: 0.85rem; color: var(--plum-mid);
-      border: none; background: none; width: 100%; text-align: left;
-    }
-    .sidebar-option:hover, .sidebar-option.active {
-      background: rgba(217,95,59,0.12); color: var(--persimmon); font-weight: 600;
-    }
-    .shop-layout {
-      display: flex; gap: 2rem;
-      padding: 3rem 2rem;
-      max-width: 1240px; margin: 0 auto;
-    }
-    .shop-main { flex: 1; min-width: 0; }
-    .results-info {
-      font-size: 0.85rem; color: var(--text-mid);
-      margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;
-    }
-    .no-results {
-      text-align: center; padding: 4rem 2rem;
-      color: var(--text-mid);
-    }
-    @media (max-width: 760px) {
-      .sidebar { display: none; }
-      .shop-layout { padding: 2rem 1rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shop All Designs — Stitch Your Love Mother's Day Embroidery</title>
+<meta name="description" content="Shop all 1682 premium machine embroidery designs for Mother's Day. Filter by floral, grandma, sports, pets, funny, and more. Instant download, commercial licence.">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="stitch-line" id="stitchLine"></div>
-<div class="overlay" id="overlay"></div>
+<!-- SEARCH MODAL -->
+<div class="modal-overlay" id="search-modal">
+  <div class="modal-box" style="position:relative">
+    <button class="m-close" onclick="closeSearch()">✕</button>
+    <p style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--plum);margin-bottom:1rem">Search designs…</p>
+    <input class="modal-search" id="search-input" type="text" placeholder="e.g. Sunflower Mom, Nana, Baseball Mama…" autocomplete="off">
+    <div id="search-results" class="modal-results"></div>
+  </div>
+</div>
+
+<!-- WISHLIST DRAWER -->
+<div class="drawer-overlay" id="drawer-ov"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>My Wishlist 🤍</h3>
+    <button class="drawer-close" onclick="toggleDrawer()">✕</button>
+  </div>
+  <div class="drawer-items" id="drawer-items">
+    <div class="d-empty" id="drawer-empty">
+      <div style="font-size:2.5rem;margin-bottom:.75rem">🧵</div>
+      <p>Your wishlist is empty.<br>Heart any design to save it.</p>
+    </div>
+  </div>
+  <div class="drawer-foot" id="drawer-foot" style="display:none">
+    <p style="font-size:.82rem;color:var(--text-mid);margin-bottom:1rem">Each design opens on Creative Fabrica.</p>
+    <a href="https://www.creativefabrica.com/search/ref/20531415/?query=mother&type=Embroidery" target="_blank" rel="noopener" class="btn btn-red" style="display:block;text-align:center">Shop All on Creative Fabrica ➜</a>
+  </div>
+</div>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">Stitch Your Love</a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="shop.html" style="color:var(--persimmon);">Shop</a></li>
-    <li><a href="shop.html#categories">Categories</a></li>
+    <li><a href="shop.html" class="active">Shop All 1682</a></li>
+    <li><a href="shop.html?cat=floral">Floral</a></li>
+    <li><a href="shop.html?cat=grandma">Grandmas</a></li>
     <li><a href="gift-guide.html">Gift Guide</a></li>
   </ul>
-  <div class="nav-icons">
-    <div class="nav-wishlist">
-      <button class="nav-icon-btn" id="wishlistBtn" onclick="toggleWishlist()">🤍</button>
-      <span class="wishlist-count" id="wishlistCount">0</span>
-    </div>
-    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="openSearch()" title="Search">🔍</button>
+    <button class="nav-btn" onclick="toggleDrawer()" title="Wishlist">
+      🤍<span class="badge" id="wl-badge">0</span>
+    </button>
+    <button class="hamburger" onclick="toggleMobile()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html" onclick="toggleMobile()">🏠 Home</a>
+  <a href="shop.html" onclick="toggleMobile()">🛍 All 1682 Designs</a>
+  <a href="shop.html?cat=floral" onclick="toggleMobile()">🌸 Floral</a>
+  <a href="shop.html?cat=grandma" onclick="toggleMobile()">💛 Grandmas</a>
+  <a href="shop.html?cat=sports" onclick="toggleMobile()">⚾ Sports Moms</a>
+  <a href="shop.html?cat=pets" onclick="toggleMobile()">🐾 Pet Moms</a>
+  <a href="shop.html?cat=funny" onclick="toggleMobile()">😂 Funny</a>
+  <a href="shop.html?cat=newmom" onclick="toggleMobile()">🍼 New Moms</a>
+  <a href="gift-guide.html" onclick="toggleMobile()">🎁 Gift Guide</a>
+</div>
 
 <!-- SHOP HERO -->
 <div class="shop-hero">
-  <div class="shop-hero-content">
-    <p style="font-size:0.75rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:0.75rem;">All Designs</p>
+  <div class="shop-hero-inner">
+    <p style="font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.6rem">Machine Embroidery Designs</p>
     <h1>Mother's Day Collection</h1>
-    <p>Premium machine embroidery designs with instant download and commercial license.</p>
+    <p style="color:rgba(255,255,255,.78);font-size:.95rem;margin-top:.75rem;line-height:1.7">1682 designs · Instant download · All formats · Commercial licence</p>
   </div>
 </div>
 
-<!-- Mobile Filters Bar -->
-<div style="padding:1rem; display:none;" id="mobileFilters">
-  <div class="filters-bar" id="mobileFiltersBar"></div>
+<!-- MOBILE FILTERS (visible on mobile) -->
+<div style="padding:.75rem 1.5rem;background:rgba(255,255,255,.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.25);position:relative;z-index:2;overflow-x:auto;white-space:nowrap">
+  <div style="display:inline-flex;gap:.5rem" id="mob-filters"></div>
 </div>
 
 <!-- SHOP LAYOUT -->
-<div class="shop-layout" id="categories">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-panel">
-      <div class="sidebar-title">Category</div>
-      <div id="sidebarCats"></div>
-    </div>
-    <div class="sidebar-panel">
-      <div class="sidebar-title">Hoop Size</div>
-      <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
-        <span class="format-tag" style="cursor:pointer; padding:0.3rem 0.7rem;">4×4</span>
-        <span class="format-tag" style="cursor:pointer; padding:0.3rem 0.7rem;">5×7</span>
-        <span class="format-tag" style="cursor:pointer; padding:0.3rem 0.7rem;">6×10</span>
-        <span class="format-tag" style="cursor:pointer; padding:0.3rem 0.7rem;">8×8</span>
-      </div>
-      <p style="font-size:0.72rem; color:var(--text-light); margin-top:0.75rem; line-height:1.5;">All sizes available on Creative Fabrica product pages.</p>
-    </div>
-    <div class="sidebar-panel">
-      <div class="sidebar-title">Style</div>
-      <div style="display:flex; flex-direction:column; gap:0.25rem;">
-        <button class="sidebar-option">🎨 Line Art</button>
-        <button class="sidebar-option">🌸 Appliqué</button>
-        <button class="sidebar-option">🧵 Filled</button>
-        <button class="sidebar-option">🎩 3D Puff</button>
-      </div>
-    </div>
-  </aside>
+<div class="wrap" style="position:relative;z-index:2">
+  <div class="shop-layout">
 
-  <!-- Products Main -->
-  <main class="shop-main">
-    <div class="results-info">
-      <span id="resultsCount">Loading designs…</span>
-      <span style="font-size:0.8rem; color:var(--text-light);">Powered by Creative Fabrica</span>
-    </div>
-    <div class="products-grid" id="productsGrid" style="opacity:0; transition:opacity 0.4s;"></div>
-    <div class="no-results" id="noResults" style="display:none;">
-      <p style="font-size:2rem; margin-bottom:1rem;">🧵</p>
-      <p>No designs found for this filter.</p>
-      <button onclick="setCategory('all')" class="btn-secondary" style="margin-top:1rem;">View All Designs</button>
-    </div>
-  </main>
-</div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="side-panel">
+        <div class="side-title">Category</div>
+        <div id="sidebar-cats"></div>
+      </div>
+      <div class="side-panel">
+        <div class="side-title">Formats Included</div>
+        <div style="display:flex;flex-wrap:wrap;gap:.35rem">
+          <span class="tag" style="font-size:.75rem;padding:.3rem .6rem">PES</span>
+          <span class="tag" style="font-size:.75rem;padding:.3rem .6rem">DST</span>
+          <span class="tag" style="font-size:.75rem;padding:.3rem .6rem">EXP</span>
+          <span class="tag" style="font-size:.75rem;padding:.3rem .6rem">HUS</span>
+          <span class="tag" style="font-size:.75rem;padding:.3rem .6rem">JEF</span>
+          <span class="tag" style="font-size:.75rem;padding:.3rem .6rem">VIP</span>
+          <span class="tag" style="font-size:.75rem;padding:.3rem .6rem">VP3</span>
+          <span class="tag" style="font-size:.75rem;padding:.3rem .6rem">XXX</span>
+        </div>
+        <p style="font-size:.73rem;color:var(--text-light);margin-top:.75rem;line-height:1.5">All sizes &amp; formats confirmed on Creative Fabrica product pages.</p>
+      </div>
+      <div class="side-panel">
+        <div class="side-title">Licence</div>
+        <p style="font-size:.83rem;color:var(--text-mid);line-height:1.6">✅ Commercial licence included with every design. Create and sell handmade physical products.</p>
+      </div>
+    </aside>
 
-<!-- CTA -->
-<div style="padding:0 2rem 4rem; max-width:1240px; margin:0 auto;">
-  <div class="cta-banner">
-    <h2>Thousands More Designs Await</h2>
-    <p>Browse the complete Mother's Day collection on Creative Fabrica — new designs added every week.</p>
-    <a href="https://www.creativefabrica.com/search/ref/20531415/?query=mother&type=Embroidery" target="_blank" rel="noopener" class="btn-primary" style="display:inline-flex;">
-      Browse Full Collection on Creative Fabrica ➜
-    </a>
+    <!-- MAIN CONTENT -->
+    <main class="shop-main">
+      <div class="toolbar">
+        <div class="result-info" id="result-info">Loading…</div>
+        <div class="search-bar">
+          <input class="search-input" id="inline-search" type="text" placeholder="Search designs…" autocomplete="off">
+        </div>
+      </div>
+      <div class="grid" id="products-grid"></div>
+      <div id="no-results" style="display:none;text-align:center;padding:4rem 2rem;color:var(--text-mid)">
+        <div style="font-size:2.5rem;margin-bottom:1rem">🧵</div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--plum);margin-bottom:.75rem">No designs found</h3>
+        <p>Try a different search or category.</p>
+        <button onclick="setFilter('all','')" class="btn btn-outline btn-sm" style="margin-top:1rem">Show All Designs</button>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </main>
+
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="cta-banner" style="margin:1rem 0 3rem">
+    <h2>Thousands More on Creative Fabrica</h2>
+    <p>Browse the complete collection — new Mother's Day designs added every week.</p>
+    <a href="https://www.creativefabrica.com/search/ref/20531415/?query=mother&type=Embroidery" target="_blank" rel="noopener" class="btn btn-green">Browse Full Collection ➜</a>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
+  <div class="footer-grid">
     <div>
       <span class="footer-logo">Stitch Your Love</span>
-      <p class="footer-tagline">Premium machine embroidery designs for Mother's Day and beyond.</p>
-      <p style="font-size:0.75rem; color:rgba(255,255,255,0.35);">Affiliate disclosure: links lead to Creative Fabrica.</p>
+      <p class="footer-tag">1682 premium machine embroidery designs for Mother's Day.</p>
+      <p style="font-size:.72rem;color:rgba(255,255,255,.3)">Affiliate disclosure: all links lead to Creative Fabrica.</p>
     </div>
     <div>
-      <h4 class="footer-heading">Quick Links</h4>
-      <ul class="footer-links">
+      <h4 class="footer-h">Categories</h4>
+      <ul class="footer-ul">
+        <li><a href="shop.html">All Designs</a></li>
+        <li><a href="shop.html?cat=floral">Floral</a></li>
+        <li><a href="shop.html?cat=grandma">For Grandmas</a></li>
+        <li><a href="shop.html?cat=sports">Sports Moms</a></li>
+        <li><a href="shop.html?cat=pets">Pet Moms</a></li>
+        <li><a href="shop.html?cat=funny">Funny</a></li>
+        <li><a href="shop.html?cat=newmom">New Moms</a></li>
+        <li><a href="shop.html?cat=animals">Animals</a></li>
+        <li><a href="shop.html?cat=modern">Modern</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-h">Navigate</h4>
+      <ul class="footer-ul">
         <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Shop All</a></li>
         <li><a href="gift-guide.html">Gift Guide</a></li>
       </ul>
     </div>
     <div>
-      <h4 class="footer-heading">Categories</h4>
-      <ul class="footer-links">
-        <li><a href="?cat=floral">Floral &amp; Elegant</a></li>
-        <li><a href="?cat=grandma">For Grandmas</a></li>
-        <li><a href="?cat=sports">Sports Moms</a></li>
-        <li><a href="?cat=pets">Pet Moms</a></li>
-        <li><a href="?cat=funny">Funny &amp; Relatable</a></li>
-        <li><a href="?cat=newmom">New Moms</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4 class="footer-heading">Formats</h4>
-      <ul class="footer-links">
-        <li><a href="#">PES, DST, EXP</a></li>
-        <li><a href="#">HUS, JEF, VIP</a></li>
-        <li><a href="#">VP3, XXX</a></li>
-        <li><a href="#">Commercial License ✓</a></li>
+      <h4 class="footer-h">Formats</h4>
+      <ul class="footer-ul">
+        <li><a href="#">PES · DST · EXP</a></li>
+        <li><a href="#">HUS · JEF · VIP</a></li>
+        <li><a href="#">VP3 · XXX</a></li>
+        <li><a href="#">Commercial Licence ✓</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 Stitch Your Love. All rights reserved.</span>
-    <span>Affiliate links to Creative Fabrica</span>
+    <span>© 2026 Stitch Your Love</span>
+    <span>1682 designs · Affiliate links to Creative Fabrica</span>
   </div>
 </footer>
 
-<!-- WISHLIST DRAWER -->
-<div class="wishlist-drawer" id="wishlistDrawer">
-  <div class="wishlist-header">
-    <h3>My Wishlist 🤍</h3>
-    <button class="wishlist-close" onclick="toggleWishlist()">✕</button>
-  </div>
-  <div class="wishlist-items" id="wishlistItems">
-    <div class="wishlist-empty" id="wishlistEmpty">
-      <p style="font-size:2rem; margin-bottom:1rem;">🧵</p>
-      <p>Your wishlist is empty.</p>
-    </div>
-  </div>
-  <div class="wishlist-footer" id="wishlistFooter" style="display:none;">
-    <p style="font-size:0.82rem; color:var(--text-mid); margin-bottom:1rem;">Ready to buy? Shop all on Creative Fabrica.</p>
-    <a href="https://www.creativefabrica.com/search/ref/20531415/?query=mother&type=Embroidery" target="_blank" class="btn-primary btn-persimmon" style="display:block; text-align:center;">
-      Shop on Creative Fabrica ➜
-    </a>
-  </div>
-</div>
-
 <script src="products.js"></script>
+<script src="shared.js"></script>
 <script>
-// Current filter state
-let currentCat = 'all';
-const urlParams = new URLSearchParams(window.location.search);
-const initCat = urlParams.get('cat') || 'all';
+/* ── SHOP CONFIG ─────────────────────────────────────────────*/
+const PAGE_SIZE = 24;
+const CATS = [
+  {id:'all',    label:'All Designs',         icon:'✨'},
+  {id:'floral', label:'Floral & Elegant',    icon:'🌸'},
+  {id:'grandma',label:'For the Grandmas',    icon:'💛'},
+  {id:'sports', label:'Sports & Hobby Moms', icon:'⚾'},
+  {id:'pets',   label:'Pet Moms',            icon:'🐾'},
+  {id:'funny',  label:'Funny & Relatable',   icon:'😂'},
+  {id:'newmom', label:'New Moms & Nursery',  icon:'🍼'},
+  {id:'animals',label:'Animals & Nature',    icon:'🐘'},
+  {id:'modern', label:'Modern & Minimal',    icon:'🎨'},
+  {id:'trending',label:'Quotes & Phrases',   icon:'💬'},
+];
 
-function buildSidebar() {
-  const container = document.getElementById('sidebarCats');
-  if (!container) return;
-  container.innerHTML = CATEGORIES.map(c => `
-    <button class="sidebar-option ${c.id === currentCat ? 'active' : ''}"
-            onclick="setCategory('${c.id}')">
+let currentCat = 'all';
+let currentPage = 1;
+let currentSearch = '';
+let filteredProducts = [];
+
+/* ── READ URL PARAMS ──────────────────────────────────────── */
+function readParams(){
+  const p = new URLSearchParams(window.location.search);
+  currentCat = p.get('cat') || 'all';
+  currentPage = parseInt(p.get('page') || '1');
+  currentSearch = p.get('q') || '';
+  // set search input
+  const si = document.getElementById('inline-search');
+  if(si && currentSearch) si.value = currentSearch;
+}
+
+/* ── FILTER & RENDER ──────────────────────────────────────── */
+function filterProducts(){
+  filteredProducts = PRODUCTS.filter(p => {
+    const catOk = currentCat === 'all' || p.c === currentCat;
+    const qOk   = !currentSearch || p.t.toLowerCase().includes(currentSearch.toLowerCase());
+    return catOk && qOk;
+  });
+}
+
+function renderPage(){
+  const grid = document.getElementById('products-grid');
+  const noRes = document.getElementById('no-results');
+  const info = document.getElementById('result-info');
+
+  if(!filteredProducts.length){
+    grid.innerHTML='';
+    noRes.style.display='block';
+    info.textContent='No designs found';
+    document.getElementById('pagination').innerHTML='';
+    return;
+  }
+  noRes.style.display='none';
+
+  const total = filteredProducts.length;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  if(currentPage > totalPages) currentPage = 1;
+
+  const start = (currentPage-1)*PAGE_SIZE;
+  const slice = filteredProducts.slice(start, start+PAGE_SIZE);
+
+  const catLabel = CATS.find(c=>c.id===currentCat)?.label || 'All';
+  info.textContent = `${total.toLocaleString()} design${total!==1?'s':''} ${currentCat!=='all'?'in '+catLabel:''} ${currentSearch?'for "'+currentSearch+'"':''} — Page ${currentPage} of ${totalPages}`;
+
+  grid.innerHTML = slice.map(p=>cardHTML(p,'')).join('');
+  wlRefreshUI();
+
+  renderPagination(totalPages);
+
+  // scroll to top of grid smoothly
+  grid.scrollIntoView({behavior:'smooth',block:'start'});
+  window.scrollBy(0,-100);
+}
+
+function renderPagination(total){
+  const el = document.getElementById('pagination');
+  if(total <= 1){ el.innerHTML=''; return; }
+  let html = '';
+  const p = currentPage;
+
+  // Prev
+  html += `<button class="page-btn" onclick="goPage(${p-1})" ${p===1?'disabled':''}>←</button>`;
+
+  // Pages
+  let pages = [];
+  if(total <= 7){
+    for(let i=1;i<=total;i++) pages.push(i);
+  } else {
+    pages = [1];
+    if(p > 3) pages.push('…');
+    for(let i=Math.max(2,p-1);i<=Math.min(total-1,p+1);i++) pages.push(i);
+    if(p < total-2) pages.push('…');
+    pages.push(total);
+  }
+
+  pages.forEach(pg=>{
+    if(pg==='…') html+=`<span class="page-dots">…</span>`;
+    else html+=`<button class="page-btn ${pg===p?'active':''}" onclick="goPage(${pg})">${pg}</button>`;
+  });
+
+  // Next
+  html += `<button class="page-btn" onclick="goPage(${p+1})" ${p===total?'disabled':''}>→</button>`;
+  el.innerHTML = html;
+}
+
+function goPage(n){
+  currentPage = n;
+  renderPage();
+  updateURL();
+}
+
+/* ── SET FILTER ───────────────────────────────────────────── */
+function setFilter(cat, search=''){
+  currentCat = cat;
+  currentSearch = search;
+  currentPage = 1;
+  // sync search input
+  const si = document.getElementById('inline-search');
+  if(si) si.value = search;
+  filterProducts();
+  renderPage();
+  updateURL();
+  buildSidebar();
+  buildMobileFilters();
+}
+
+function updateURL(){
+  const url = new URL(window.location);
+  if(currentCat==='all') url.searchParams.delete('cat');
+  else url.searchParams.set('cat', currentCat);
+  if(currentPage===1) url.searchParams.delete('page');
+  else url.searchParams.set('page', currentPage);
+  if(currentSearch) url.searchParams.set('q', currentSearch);
+  else url.searchParams.delete('q');
+  window.history.replaceState({},'', url);
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────── */
+function countCat(cat){
+  if(cat==='all') return PRODUCTS.length;
+  return PRODUCTS.filter(p=>p.c===cat).length;
+}
+
+function buildSidebar(){
+  const el = document.getElementById('sidebar-cats');
+  if(!el) return;
+  el.innerHTML = CATS.map(c=>`
+    <button class="side-opt ${c.id===currentCat?'active':''}" onclick="setFilter('${c.id}')">
+      ${c.icon} ${c.label}
+      <span class="cnt">${countCat(c.id).toLocaleString()}</span>
+    </button>`).join('');
+}
+
+function buildMobileFilters(){
+  const el = document.getElementById('mob-filters');
+  if(!el) return;
+  el.innerHTML = CATS.map(c=>`
+    <button onclick="setFilter('${c.id}')" style="flex-shrink:0;padding:.45rem .9rem;border-radius:50px;border:1px solid var(--glass-b);background:${c.id===currentCat?'var(--persimmon)':'rgba(255,255,255,.6)'};color:${c.id===currentCat?'#fff':'var(--plum2)'};font-size:.78rem;font-weight:500;font-family:Outfit,sans-serif;white-space:nowrap;cursor:pointer;transition:all .2s">
       ${c.icon} ${c.label}
     </button>`).join('');
 }
 
-function buildMobileFilters() {
-  const container = document.getElementById('mobileFiltersBar');
-  if (container) {
-    container.innerHTML = CATEGORIES.map(c => `
-      <button class="filter-btn ${c.id === currentCat ? 'active' : ''}"
-              onclick="setCategory('${c.id}')">
-        ${c.icon} ${c.label}
-      </button>`).join('');
-  }
-  const mf = document.getElementById('mobileFilters');
-  if (mf) mf.style.display = 'block';
-}
-
-function setCategory(cat) {
-  currentCat = cat;
-  // Update URL
-  const url = new URL(window.location);
-  if (cat === 'all') url.searchParams.delete('cat');
-  else url.searchParams.set('cat', cat);
-  window.history.pushState({}, '', url);
-
-  buildSidebar();
-  buildMobileFilters();
-  renderProducts();
-}
-
-function renderProducts() {
-  const grid = document.getElementById('productsGrid');
-  const noResults = document.getElementById('noResults');
-  const resultsCount = document.getElementById('resultsCount');
-
-  let filtered = currentCat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === currentCat);
-
-  if (filtered.length === 0) {
-    grid.innerHTML = ''; grid.style.opacity = '0';
-    noResults.style.display = 'block';
-    resultsCount.textContent = '0 designs found';
-    return;
-  }
-
-  noResults.style.display = 'none';
-  resultsCount.textContent = `${filtered.length} design${filtered.length !== 1 ? 's' : ''} found`;
-
-  grid.style.opacity = '0';
-  grid.innerHTML = filtered.map(p => buildProductCardHTML(p)).join('');
-  setTimeout(() => { grid.style.opacity = '1'; }, 50);
-  updateWishlistUI();
-}
-
-function buildProductCardHTML(p) {
-  const formats = ['PES','DST','EXP','HUS','JEF'];
-  const id = 'p-' + encodeURIComponent(p.title).slice(0,20).replace(/%/g,'');
-  return `
-  <div class="product-card" data-id="${id}">
-    <div class="product-image-wrap">
-      <img src="${p.image}" alt="${p.title}" loading="lazy">
-      <button class="product-wish" onclick="toggleWish(event, this, '${id}', \`${p.title.replace(/`/g,"'")}\`, '${p.image}')" title="Save to wishlist">🤍</button>
-    </div>
-    <div class="product-body">
-      <h3 class="product-title">${p.title}</h3>
-      <p class="product-desc">${p.description}</p>
-      <div class="product-formats">
-        ${formats.map(f => `<span class="format-tag">${f}</span>`).join('')}
-        <span class="format-tag">+3</span>
-      </div>
-      <a href="${p.affiliate}" target="_blank" rel="noopener" class="btn-buy">Buy Design on Creative Fabrica ➜</a>
-    </div>
-  </div>`;
-}
-
-// Init
-currentCat = initCat;
-buildSidebar();
-buildMobileFilters();
-renderProducts();
-
-// Navbar scroll
-let lastScroll = 0;
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  const s = window.scrollY;
-  if (s > lastScroll && s > 120) navbar.classList.add('hidden');
-  else navbar.classList.remove('hidden');
-  if (s > 50) navbar.classList.add('scrolled');
-  else navbar.classList.remove('scrolled');
-  lastScroll = s;
-});
-
-// Wishlist
-let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-
-function updateWishlistUI() {
-  const count = wishlist.length;
-  const countEl = document.getElementById('wishlistCount');
-  const footer = document.getElementById('wishlistFooter');
-  const empty = document.getElementById('wishlistEmpty');
-  const items = document.getElementById('wishlistItems');
-  if (countEl) { countEl.textContent = count; countEl.classList.toggle('visible', count > 0); }
-  if (footer) footer.style.display = count > 0 ? 'block' : 'none';
-  if (empty) empty.style.display = count === 0 ? 'block' : 'none';
-  if (items) {
-    items.querySelectorAll('.wishlist-item').forEach(el => el.remove());
-    wishlist.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'wishlist-item';
-      div.innerHTML = `<img src="${item.image}" alt="${item.title}"><div class="wishlist-item-info"><div class="wishlist-item-title">${item.title}</div><button class="wishlist-item-rm" onclick="removeWish('${item.id}')">Remove</button></div>`;
-      items.appendChild(div);
+/* ── INLINE SEARCH ───────────────────────────────────────── */
+let searchTimer;
+document.addEventListener('DOMContentLoaded',()=>{
+  const si = document.getElementById('inline-search');
+  if(si){
+    si.addEventListener('input', e=>{
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(()=>{
+        currentSearch = e.target.value.trim();
+        currentPage = 1;
+        filterProducts();
+        renderPage();
+        updateURL();
+      }, 300);
     });
   }
-  document.querySelectorAll('.product-wish').forEach(btn => {
-    const id = btn.closest('.product-card')?.dataset?.id;
-    if (id && wishlist.find(w => w.id === id)) { btn.textContent = '❤️'; btn.classList.add('active'); }
-    else { btn.textContent = '🤍'; btn.classList.remove('active'); }
-  });
-}
-
-function toggleWish(e, btn, id, title, image) {
-  e.preventDefault(); e.stopPropagation();
-  const existing = wishlist.findIndex(w => w.id === id);
-  if (existing >= 0) { wishlist.splice(existing, 1); btn.textContent = '🤍'; btn.classList.remove('active'); }
-  else {
-    if (wishlist.length >= 10) { alert('Wishlist is full! Remove a design first.'); return; }
-    wishlist.push({ id, title, image });
-    btn.textContent = '❤️'; btn.classList.add('active');
-    btn.style.transform = 'scale(1.3)';
-    setTimeout(() => btn.style.transform = '', 300);
-  }
-  localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  updateWishlistUI();
-}
-
-function removeWish(id) {
-  wishlist = wishlist.filter(w => w.id !== id);
-  localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  updateWishlistUI();
-}
-
-function toggleWishlist() {
-  document.getElementById('wishlistDrawer').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('visible');
-}
-
-document.getElementById('overlay').addEventListener('click', () => {
-  document.getElementById('wishlistDrawer').classList.remove('open');
-  document.getElementById('overlay').classList.remove('visible');
 });
 
-updateWishlistUI();
-
-function toggleMobileMenu() {
-  const links = document.querySelector('.nav-links');
-  if (links.style.display === 'flex') links.style.display = 'none';
-  else links.style.cssText = 'display:flex; flex-direction:column; position:fixed; top:72px; left:0; right:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); padding:1.5rem; gap:1.25rem; border-bottom:1px solid rgba(45,27,46,0.1); z-index:890;';
-}
+/* ── INIT ─────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',()=>{
+  readParams();
+  buildSidebar();
+  buildMobileFilters();
+  filterProducts();
+  renderPage();
+});
 </script>
 </body>
 </html>
